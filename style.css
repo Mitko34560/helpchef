@@ -68,3 +68,14 @@ footer { background: #111; color: #fff; padding: 60px 5% 20px; margin-top: 100px
 .footer-col h4 { margin-bottom: 20px; color: var(--brand); }
 .footer-col a { display: block; color: #888; text-decoration: none; margin-bottom: 10px; font-size: 0.9rem; }
 .footer-bar { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #222; font-size: 0.8rem; color: #555; }
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 44px;
+    width: auto;
+}
+
