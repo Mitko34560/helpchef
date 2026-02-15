@@ -1,107 +1,194 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help Chef | Готвачи, Диети и Агро мрежа</title>
-    
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help Chef | Всичко за храната</title>
+
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* ===== Navbar Blur ===== */
+header {
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.8);
+}
+
+/* ===== Hero Animation ===== */
+.hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg,#f9f9f9,#e8f5e9);
+    overflow: hidden;
+}
+
+.hero-box {
+    animation: fadeUp 1s ease forwards;
+}
+
+@keyframes fadeUp {
+    from { opacity:0; transform: translateY(60px);}
+    to { opacity:1; transform: translateY(0);}
+}
+
+/* Floating circles background */
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(46,204,113,0.15);
+    animation: float 6s infinite ease-in-out;
+}
+
+.circle:nth-child(1){ width:200px;height:200px;top:10%;left:10%;}
+.circle:nth-child(2){ width:150px;height:150px;bottom:15%;right:15%;animation-delay:2s;}
+.circle:nth-child(3){ width:100px;height:100px;bottom:40%;left:20%;animation-delay:4s;}
+
+@keyframes float {
+    0%{ transform: translateY(0);}
+    50%{ transform: translateY(-20px);}
+    100%{ transform: translateY(0);}
+}
+
+/* Buttons */
+.btn-main:hover{
+    transform: scale(1.07);
+    transition:0.3s;
+}
+
+/* Scroll reveal */
+.reveal{
+    opacity:0;
+    transform:translateY(40px);
+    transition:all 0.8s ease;
+}
+
+.reveal.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+</style>
 </head>
+
 <body>
 
 <header>
-    <div class="nav-container">
-        <a href="/" class="logo">
-            <img src="https://i.ibb.co/d40zFTMr/2dee21f5-6b17-464e-9c4b-5050b8cd4da5.png" alt="Help Chef Logo">
-        </a>
-        
-        <nav class="main-nav">
-            <ul>
-                <li><a href="/chefs.html">Find Chef</a></li>
-                <li><a href="/athlete-chefs.html">Athlete Meals</a></li>
-                <li><a href="/diet-programs.html">Diet Programs</a></li>
-                <li><a href="/agro-network.html">Agro Network</a></li>
-                <li><a href="/donate-food.html">Donate Food</a></li>
-                <li class="dropdown">
-                    <a href="#">Become a Partner ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/become-chef">Become a Chef</a></li>
-                        <li><a href="/become-farmer">Become a Farmer</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
+<div class="nav-container">
+    <a href="index.html" class="logo">
+        <img src="https://i.ibb.co/d40zFTMr/2dee21f5-6b17-464e-9c4b-5050b8cd4da5.png">
+    </a>
 
-        <div class="auth-group">
-            <a href="/login" class="btn-text">Login</a>
-            <a href="/signup" class="btn-cta">Sign up</a>
-        </div>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="chefs.html">Find Chef</a></li>
+            <li><a href="diet-programs.html">Diet Programs</a></li>
+            <li><a href="agro-network.html">Agro Network</a></li>
+            <li><a href="donate-food.html">Donate</a></li>
+        </ul>
+    </nav>
+
+    <div class="auth-group">
+        <a href="login.html" class="btn-text">Login</a>
+        <a href="signup.html" class="btn-cta">Sign Up</a>
     </div>
+</div>
 </header>
 
 <section class="hero">
-    <div class="hero-box">
-        <span class="badge">MVP Version 1.0</span>
-        <h1>Всичко за храната на едно място</h1>
-        <p>От професионални готвачи до пресни фермерски продукти. Платформата, която свързва производители, професионалисти и клиенти.</p>
-        <div class="hero-btns">
-            <a href="/chefs" class="btn-main">Намери Готвач</a>
-            <a href="/how-it-works" class="btn-sub">Как работи?</a>
-        </div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+
+<div class="hero-box">
+    <span class="badge">MVP Version 2.0</span>
+    <h1>Революция в храната</h1>
+    <p>Свързваме готвачи, фермери и клиенти в една модерна екосистема.</p>
+
+    <div class="hero-btns">
+        <a href="chefs.html" class="btn-main">Намери Готвач</a>
+        <a href="how-it-works.html" class="btn-cta">Как работи?</a>
     </div>
+</div>
 </section>
 
-<section class="modules">
-    <div class="section-title">
-        <h2>Нашите Екосистеми</h2>
-        <p>Изберете услугата, от която имате нужда</p>
-    </div>
-    <div class="grid-container">
-        <a href="/athlete-chefs" class="mod-card">
-            <h3>Athlete Chefs</h3>
-            <p>Fit & Low Calorie хранения за активни хора.</p>
-        </a>
-        <a href="/diet-programs" class="mod-card">
-            <h3>Diet Programs</h3>
-            <p>Индивидуални планове от специалисти.</p>
-        </a>
-        <a href="/agro-network" class="mod-card">
-            <h3>Agro Network</h3>
-            <p>Farm → Food: Директна връзка с ферми.</p>
-        </a>
-        <a href="/donate-food" class="mod-card">
-            <h3>Food Donation</h3>
-            <p>Сподели храна с тези, които имат нужда.</p>
-        </a>
-    </div>
+<section class="modules reveal">
+<div class="section-title">
+    <h2>Нашите услуги</h2>
+    <p>Всичко необходимо за качествено хранене</p>
+</div>
+
+<div class="grid-container">
+    <a href="chefs.html" class="mod-card">
+        <h3>Професионални Готвачи</h3>
+        <p>Персонализирани менюта и частни събития.</p>
+    </a>
+
+    <a href="diet-programs.html" class="mod-card">
+        <h3>Диетични Програми</h3>
+        <p>Индивидуални режими от специалисти.</p>
+    </a>
+
+    <a href="agro-network.html" class="mod-card">
+        <h3>Agro Network</h3>
+        <p>Директно от фермата до масата.</p>
+    </a>
+
+    <a href="donate-food.html" class="mod-card">
+        <h3>Дарение на Храна</h3>
+        <p>Подкрепи хора в нужда.</p>
+    </a>
+</div>
 </section>
 
 <footer>
-    <div class="footer-grid">
-        <div class="footer-col">
-            <h3>HELP<span>CHEF</span></h3>
-            <p>Революция в храненето.</p>
-        </div>
-        <div class="footer-col">
-            <h4>Бързи връзки</h4>
-            <a href="/about">About</a>
-            <a href="/impact">Impact</a>
-            <a href="/pricing">Pricing</a>
-            <a href="/contact">Contact</a>
-        </div>
-        <div class="footer-col">
-            <h4>Правна информация</h4>
-            <a href="/terms">Terms</a>
-            <a href="/privacy">Privacy</a>
-            <a href="/food-safety">Food Safety</a>
-        </div>
+<div class="footer-grid">
+    <div class="footer-col">
+        <h3>HELP<span>CHEF</span></h3>
+        <p>Бъдещето на храната започва тук.</p>
     </div>
-    <div class="footer-bar">
-        &copy; 2026 Help Chef Platform. Всички права запазени.
+
+    <div class="footer-col">
+        <h4>Навигация</h4>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
     </div>
+
+    <div class="footer-col">
+        <h4>Правна информация</h4>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+    </div>
+</div>
+
+<div class="footer-bar">
+    © 2026 Help Chef Platform
+</div>
 </footer>
+
+<script>
+
+/* Scroll animation */
+function reveal(){
+    const reveals = document.querySelectorAll(".reveal");
+
+    reveals.forEach(el=>{
+        const windowHeight = window.innerHeight;
+        const elementTop = el.getBoundingClientRect().top;
+        const visible = 100;
+
+        if(elementTop < windowHeight - visible){
+            el.classList.add("active");
+        }
+    });
+}
+
+window.addEventListener("scroll", reveal);
+
+</script>
 
 </body>
 </html>
-
