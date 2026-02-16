@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<title>Забравена парола</title>
+<link rel="stylesheet" href="style.css">
+<script src="auth.js" defer></script>
+</head>
+<body>
+
+<div class="form-box">
+
+<h2>Забравена парола</h2>
+
+<input type="text" id="username" placeholder="Username">
+<button class="btn" onclick="resetPassword()">Нулирай</button>
+
+<p id="msg" class="message"></p>
+
+</div>
+
+<script>
+function resetPassword(){
+const username = document.getElementById("username").value;
+
+let users = getUsers();
+let user = users.find(u=>u.username===username);
+
+if(!user){
+document.getElementById("msg").innerText="Няма такъв потребител.";
+return;
+}
+
+user.password="1234";
+saveUsers(users);
+
+document.getElementById("msg").innerText=
+"Паролата е нулирана на: 1234";
+}
+</script>
+
+</body>
+</html>
