@@ -4,18 +4,22 @@
 <meta charset="UTF-8">
 <title>Регистрация</title>
 <link rel="stylesheet" href="style.css">
-<script defer src="auth.js"></script>
+<script src="auth.js" defer></script>
 </head>
 <body>
 
 <div class="form-box">
-<h2>Регистрация</h2>
+<h2>Създай акаунт</h2>
+
 <form onsubmit="register(event)">
-<input type="text" id="username" placeholder="Username" required>
-<input type="password" id="password" placeholder="Password" required>
+<input type="text" id="username" placeholder="Потребителско име" required>
+<input type="password" id="password" placeholder="Парола" required>
+
 <div id="msg" class="message"></div>
-<button class="btn">Sign Up</button>
+
+<button class="btn">Регистрация</button>
 </form>
+
 </div>
 
 </body>
