@@ -10,101 +10,94 @@
 
 <nav>
 <h1>HelpChef</h1>
+<a href="index.html">Начало</a>
+<a href="recipes.html">Рецепти</a>
 <button onclick="logout()">Logout</button>
 </nav>
 
 <div class="profile">
-
-<img id="profileImg" src="" />
-<input type="file" id="imgInput"><br><br>
-
 <h2 id="welcome"></h2>
 <p id="role"></p>
-
-<textarea id="bio" placeholder="Напиши биография..."></textarea><br>
-<button class="btn" onclick="saveProfile()">Запази профила</button>
-
 </div>
 
 <div id="adminPanel" class="admin-panel" style="display:none;">
-<h3>Админ Панел</h3>
+
+<h3>📊 Статистики</h3>
 <p id="stats"></p>
+
+<h3>👥 Потребители</h3>
 <div id="userList"></div>
+
+<h3>🕒 Лог на действия</h3>
+<div id="logs"></div>
+
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", ()=>{
+document.addEventListener("DOMContentLoaded",()=>{
 
-const user = getCurrentUser();
+const user=getCurrentUser();
 if(!user) window.location="login.html";
 
-document.getElementById("welcome").innerText = user.username;
-document.getElementById("role").innerText = "Роля: "+user.role;
-document.getElementById("bio").value = user.bio;
-
-if(user.image){
-document.getElementById("profileImg").src = user.image;
-}
+document.getElementById("welcome").innerText="Добре дошъл, "+user.username;
+document.getElementById("role").innerText="Роля: "+user.role;
 
 if(user.role==="admin"){
 document.getElementById("adminPanel").style.display="block";
-loadUsers();
+loadAdminData();
 }
 
 });
 
-function saveProfile(){
-let users = getUsers();
-let user = getCurrentUser();
+function loadAdminData(){
+let users=getUsers();
+let blocked=users.filter(u=>u.blocked).length;
 
-let u = users.find(x=>x.username===user.username);
+document.getElementById("stats").innerText=
+"Общо: "+users.length+" | Блокирани: "+blocked;
 
-u.bio = document.getElementById("bio").value;
-u.image = document.getElementById("profileImg").src;
-
-saveUsers(users);
-alert("Профилът е запазен.");
-}
-
-document.getElementById("imgInput").addEventListener("change", function(){
-const reader = new FileReader();
-reader.onload = function(){
-document.getElementById("profileImg").src = reader.result;
-}
-reader.readAsDataURL(this.files[0]);
-});
-
-function loadUsers(){
-let users = getUsers();
-let container = document.getElementById("userList");
-let blocked = users.filter(u=>u.blocked).length;
-
-document.getElementById("stats").innerText =
-"Общо потребители: "+users.length+
-" | Блокирани: "+blocked;
-
+let container=document.getElementById("userList");
 container.innerHTML="";
 
 users.forEach(u=>{
-if(u.username !== getCurrentUser().username){
 container.innerHTML+=`
-<div>
-${u.username} (${u.role})
+<div style="margin:10px 0;">
+${u.username} (${u.role})<br>
+Регистриран: ${u.createdAt || "стар акаунт"}
 <button onclick="toggle('${u.username}')">
 ${u.blocked?"Разблокирай":"Блокирай"}
 </button>
 </div>
 `;
-}
 });
+
+loadLogs();
 }
 
 function toggle(username){
 let users=getUsers();
 let u=users.find(x=>x.username===username);
+
 u.blocked=!u.blocked;
 saveUsers(users);
-loadUsers();
+
+logAction("Админ промени статус на "+username);
+
+loadAdminData();
+}
+
+function loadLogs(){
+let logs=JSON.parse(localStorage.getItem("logs")) || [];
+let container=document.getElementById("logs");
+container.innerHTML="";
+
+logs.slice().reverse().forEach(l=>{
+container.innerHTML+=`
+<div>
+${l.date} - ${l.text}
+</div>
+`;
+});
 }
 </script>
 
