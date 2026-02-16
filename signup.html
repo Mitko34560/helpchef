@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-    <meta charset="UTF-8">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="auth.js"></script>
+<meta charset="UTF-8">
+<title>Sign Up</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="auth.js"></script>
 </head>
 <body>
 
-<section class="hero">
-    <div class="hero-box">
-        <h1>Регистрация</h1>
-        <form onsubmit="register(event)">
-            <input type="text" id="username" placeholder="Username"><br><br>
-            <input type="password" id="password" placeholder="Password"><br><br>
-            <button class="btn-main">Sign Up</button>
-        </form>
-    </div>
-</section>
+<form onsubmit="register(event)">
+<h2>Регистрация</h2>
+<input type="text" id="username" placeholder="Username" required>
+<input type="password" id="password" placeholder="Password" required>
+<button>Sign Up</button>
+</form>
 
 </body>
 </html>
