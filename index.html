@@ -2,35 +2,77 @@
 <html lang="bg">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HelpChef</title>
 <link rel="stylesheet" href="style.css">
-<script defer src="auth.js"></script>
+<script src="auth.js" defer></script>
 </head>
 <body>
 
 <nav>
 <h1>HelpChef</h1>
-<div>
-<button onclick="toggleTheme()">🌙</button>
+
+<div id="navLinks">
 <a href="login.html">Login</a>
 <a href="signup.html">Sign Up</a>
+</div>
+
+<div>
+<button onclick="toggleTheme()">🌙</button>
 </div>
 </nav>
 
 <section class="hero">
-<h2>Модерна платформа за готвачи</h2>
-<p>Регистрирай се и създай своя профил.</p>
-<button class="btn" onclick="location.href='signup.html'">Започни</button>
+<h2>Бъдещето на храната започва тук</h2>
+<p>Свързваме готвачи, фермери и клиенти в една модерна платформа.</p>
+
+<button class="btn" onclick="location.href='signup.html'">
+Започни сега
+</button>
+
 <div class="chef">👨‍🍳</div>
 </section>
 
 <section class="section">
-<div class="card">Професионални готвачи</div>
-<div class="card">Диетични програми</div>
-<div class="card">Agro Network</div>
-<div class="card">Дарение на храна</div>
+<div class="card">
+<h3>Професионални готвачи</h3>
+<p>Намери най-добрите кулинарни експерти.</p>
+</div>
+
+<div class="card">
+<h3>Диетични програми</h3>
+<p>Персонализирани хранителни режими.</p>
+</div>
+
+<div class="card">
+<h3>Agro Network</h3>
+<p>Свързване директно с фермери.</p>
+</div>
+
+<div class="card">
+<h3>Дарение на храна</h3>
+<p>Помагай на хора в нужда.</p>
+</div>
 </section>
+
+<script>
+function toggleTheme(){
+document.body.classList.toggle("light");
+}
+
+document.addEventListener("DOMContentLoaded", ()=>{
+
+const user = localStorage.getItem("loggedUser");
+
+if(user){
+document.getElementById("navLinks").innerHTML = `
+<a href="profile.html">👤 ${user}</a>
+<button onclick="logout()">Logout</button>
+`;
+}
+
+});
+</script>
 
 </body>
 </html>
-
