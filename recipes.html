@@ -15,57 +15,37 @@
 </nav>
 
 <div class="profile">
-
 <h2>Качи рецепта</h2>
 
-<input type="text" id="title" placeholder="Име на рецепта"><br><br>
-
-<select id="category">
-<option value="Основни">Основни</option>
-<option value="Десерти">Десерти</option>
-<option value="Веган">Веган</option>
-<option value="Фитнес">Фитнес</option>
-</select><br><br>
-
-<textarea id="content" placeholder="Описание на рецептата..." rows="5"></textarea><br>
-
+<input type="text" id="title" placeholder="Име">
+<textarea id="content" placeholder="Описание"></textarea>
 <button class="btn" onclick="addRecipe()">Качи</button>
-
 </div>
 
-<hr style="margin:50px 0;">
+<hr>
 
 <div class="section" id="recipesList"></div>
 
 <script>
-
-document.addEventListener("DOMContentLoaded", loadRecipes);
+document.addEventListener("DOMContentLoaded",loadRecipes);
 
 function getRecipes(){
 return JSON.parse(localStorage.getItem("recipes")) || [];
 }
 
-function saveRecipes(recipes){
-localStorage.setItem("recipes", JSON.stringify(recipes));
+function saveRecipes(r){
+localStorage.setItem("recipes",JSON.stringify(r));
 }
 
 function addRecipe(){
-const user = getCurrentUser();
-if(!user){
-alert("Трябва да си логнат.");
-return;
-}
+const user=getCurrentUser();
+if(!user){alert("Логни се.");return;}
 
-const title = document.getElementById("title").value;
-const category = document.getElementById("category").value;
-const content = document.getElementById("content").value;
-
-let recipes = getRecipes();
+let recipes=getRecipes();
 
 recipes.push({
-title,
-category,
-content,
+title:document.getElementById("title").value,
+content:document.getElementById("content").value,
 author:user.username
 });
 
@@ -73,23 +53,31 @@ saveRecipes(recipes);
 loadRecipes();
 }
 
+function deleteRecipe(index){
+let recipes=getRecipes();
+recipes.splice(index,1);
+saveRecipes(recipes);
+loadRecipes();
+}
+
 function loadRecipes(){
-let recipes = getRecipes();
-let container = document.getElementById("recipesList");
+let recipes=getRecipes();
+let container=document.getElementById("recipesList");
+let user=getCurrentUser();
 container.innerHTML="";
 
-recipes.forEach(r=>{
+recipes.forEach((r,i)=>{
 container.innerHTML+=`
 <div class="card">
 <h3>${r.title}</h3>
-<p><b>Категория:</b> ${r.category}</p>
 <p>${r.content}</p>
-<p style="opacity:0.7;">Автор: ${r.author}</p>
+<p>Автор: ${r.author}</p>
+${user && user.role==="admin" ? 
+`<button onclick="deleteRecipe(${i})">🗑 Изтрий</button>` : ""}
 </div>
 `;
 });
 }
-
 </script>
 
 </body>
