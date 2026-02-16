@@ -2,7 +2,7 @@
 <html lang="bg">
 <head>
 <meta charset="UTF-8">
-<title>Профил</title>
+<title>Dashboard</title>
 <link rel="stylesheet" href="style.css">
 <script src="auth.js" defer></script>
 </head>
@@ -13,48 +13,85 @@
 <button onclick="logout()">Logout</button>
 </nav>
 
-<div class="profile" id="profileBox">
+<div class="profile">
+
+<img id="profileImg" src="" />
+<input type="file" id="imgInput"><br><br>
+
 <h2 id="welcome"></h2>
 <p id="role"></p>
+
+<textarea id="bio" placeholder="Напиши биография..."></textarea><br>
+<button class="btn" onclick="saveProfile()">Запази профила</button>
+
 </div>
 
 <div id="adminPanel" class="admin-panel" style="display:none;">
 <h3>Админ Панел</h3>
+<p id="stats"></p>
 <div id="userList"></div>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", ()=>{
 
 const user = getCurrentUser();
+if(!user) window.location="login.html";
 
-if(!user){
-document.body.innerHTML = "<h1 style='text-align:center;margin-top:150px;'>Не си логнат</h1>";
-return;
+document.getElementById("welcome").innerText = user.username;
+document.getElementById("role").innerText = "Роля: "+user.role;
+document.getElementById("bio").value = user.bio;
+
+if(user.image){
+document.getElementById("profileImg").src = user.image;
 }
 
-document.getElementById("welcome").innerText = "Добре дошъл, " + user.username;
-document.getElementById("role").innerText = "Роля: " + user.role;
-
-if(user.role === "admin"){
-document.getElementById("adminPanel").style.display = "block";
+if(user.role==="admin"){
+document.getElementById("adminPanel").style.display="block";
 loadUsers();
 }
 
 });
 
+function saveProfile(){
+let users = getUsers();
+let user = getCurrentUser();
+
+let u = users.find(x=>x.username===user.username);
+
+u.bio = document.getElementById("bio").value;
+u.image = document.getElementById("profileImg").src;
+
+saveUsers(users);
+alert("Профилът е запазен.");
+}
+
+document.getElementById("imgInput").addEventListener("change", function(){
+const reader = new FileReader();
+reader.onload = function(){
+document.getElementById("profileImg").src = reader.result;
+}
+reader.readAsDataURL(this.files[0]);
+});
+
 function loadUsers(){
 let users = getUsers();
 let container = document.getElementById("userList");
-container.innerHTML = "";
+let blocked = users.filter(u=>u.blocked).length;
+
+document.getElementById("stats").innerText =
+"Общо потребители: "+users.length+
+" | Блокирани: "+blocked;
+
+container.innerHTML="";
 
 users.forEach(u=>{
-if(u.username !== localStorage.getItem("loggedUser")){
-container.innerHTML += `
-<div style="margin:10px 0;">
-${u.username}
+if(u.username !== getCurrentUser().username){
+container.innerHTML+=`
+<div>
+${u.username} (${u.role})
 <button onclick="toggle('${u.username}')">
-${u.blocked ? "Разблокирай" : "Блокирай"}
+${u.blocked?"Разблокирай":"Блокирай"}
 </button>
 </div>
 `;
@@ -63,9 +100,9 @@ ${u.blocked ? "Разблокирай" : "Блокирай"}
 }
 
 function toggle(username){
-let users = getUsers();
-let u = users.find(x=>x.username===username);
-u.blocked = !u.blocked;
+let users=getUsers();
+let u=users.find(x=>x.username===username);
+u.blocked=!u.blocked;
 saveUsers(users);
 loadUsers();
 }
