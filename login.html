@@ -1,6 +1,26 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="auth.js"></script>
+</head>
+<body>
+
+<div class="form-container">
+<h2>Вход</h2>
+
 <form onsubmit="login(event)">
-<h2>Login</h2>
 <input type="text" id="username" placeholder="Username" required>
-<input type="password" id="password" required>
-<button>Login</button>
+<input type="password" id="password" placeholder="Password" required>
+
+<div id="msg" class="form-msg"></div>
+
+<button class="btn-main">Login</button>
 </form>
+
+</div>
+
+</body>
+</html>
