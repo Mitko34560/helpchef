@@ -120,3 +120,42 @@ button{
     color:white;
     cursor:pointer;
 }
+
+.form-container{
+    width:350px;
+    margin:120px auto;
+    background:white;
+    padding:40px;
+    border-radius:12px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.1);
+    animation:fadeUp 0.6s ease;
+}
+
+.form-container h2{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.form-container input{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    transition:0.3s;
+}
+
+.form-container input:focus{
+    border-color:#2ecc71;
+    outline:none;
+    box-shadow:0 0 10px rgba(46,204,113,0.2);
+}
+
+.form-msg{
+    color:red;
+    font-size:14px;
+    min-height:20px;
+    margin-bottom:10px;
+    opacity:0;
+    transition:0.3s;
+}
