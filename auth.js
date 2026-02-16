@@ -1,56 +1,70 @@
-// ===== Регистрация =====
+// ===== Helper =====
+function getUsers(){
+    return JSON.parse(localStorage.getItem("users")) || [];
+}
+
+function saveUsers(users){
+    localStorage.setItem("users", JSON.stringify(users));
+}
+
+function getCurrentUser(){
+    const username = localStorage.getItem("loggedUser");
+    if(!username) return null;
+
+    const users = getUsers();
+    return users.find(u => u.username === username);
+}
+
+// ===== Register =====
 function register(e){
     e.preventDefault();
 
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-    let users = JSON.parse(localStorage.getItem("users")) || [];
+    let users = getUsers();
 
     if(users.find(u => u.username === username)){
-        alert("Това име вече съществува.");
+        showMessage("Потребителят вече съществува.");
         return;
     }
 
     const newUser = {
         username,
         password,
-        bio: "",
-        image: "",
-        blocked: false,
-        role: username === "admin" ? "admin" : "user"
+        role: username === "admin" ? "admin" : "user",
+        blocked: false
     };
 
     users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("loggedUser", username);
+    saveUsers(users);
 
-    window.location.href="profile.html";
+    localStorage.setItem("loggedUser", username);
+    window.location.href = "profile.html";
 }
 
 // ===== Login =====
 function login(e){
     e.preventDefault();
 
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-
+    const users = getUsers();
     const user = users.find(u => u.username === username && u.password === password);
 
     if(!user){
-        alert("Грешни данни.");
+        showMessage("Грешни данни.");
         return;
     }
 
     if(user.blocked){
-        alert("Този акаунт е блокиран.");
+        showMessage("Този акаунт е блокиран от администратор.");
         return;
     }
 
     localStorage.setItem("loggedUser", username);
-    window.location.href="profile.html";
+    window.location.href = "profile.html";
 }
 
 // ===== Logout =====
@@ -59,11 +73,26 @@ function logout(){
     window.location.href="index.html";
 }
 
-// ===== Проверка login =====
-function getCurrentUser(){
-    const username = localStorage.getItem("loggedUser");
-    if(!username) return null;
-
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    return users.find(u => u.username === username);
+// ===== UI message =====
+function showMessage(msg){
+    const box = document.getElementById("msg");
+    if(box){
+        box.innerText = msg;
+        box.style.opacity = "1";
+    }
 }
+
+// ===== Navbar Update =====
+document.addEventListener("DOMContentLoaded", () => {
+    const user = getCurrentUser();
+
+    if(user){
+        const authGroup = document.querySelector(".auth-group");
+        if(authGroup){
+            authGroup.innerHTML = `
+                <a href="profile.html">👤 ${user.username}</a>
+                <button onclick="logout()" class="btn-cta">Logout</button>
+            `;
+        }
+    }
+});
