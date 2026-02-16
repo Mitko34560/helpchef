@@ -1,46 +1,69 @@
+// ===== Регистрация =====
 function register(e){
     e.preventDefault();
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    localStorage.setItem("user", JSON.stringify({username,password}));
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    if(users.find(u => u.username === username)){
+        alert("Това име вече съществува.");
+        return;
+    }
+
+    const newUser = {
+        username,
+        password,
+        bio: "",
+        image: "",
+        blocked: false,
+        role: username === "admin" ? "admin" : "user"
+    };
+
+    users.push(newUser);
+    localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("loggedUser", username);
 
     window.location.href="profile.html";
 }
 
+// ===== Login =====
 function login(e){
     e.preventDefault();
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    const stored = JSON.parse(localStorage.getItem("user"));
+    let users = JSON.parse(localStorage.getItem("users")) || [];
 
-    if(stored && stored.username === username && stored.password === password){
-        localStorage.setItem("loggedUser", username);
-        window.location.href="profile.html";
-    }else{
-        alert("Грешни данни");
+    const user = users.find(u => u.username === username && u.password === password);
+
+    if(!user){
+        alert("Грешни данни.");
+        return;
     }
+
+    if(user.blocked){
+        alert("Този акаунт е блокиран.");
+        return;
+    }
+
+    localStorage.setItem("loggedUser", username);
+    window.location.href="profile.html";
 }
 
+// ===== Logout =====
 function logout(){
     localStorage.removeItem("loggedUser");
     window.location.href="index.html";
 }
 
-document.addEventListener("DOMContentLoaded",()=>{
-    const user = localStorage.getItem("loggedUser");
+// ===== Проверка login =====
+function getCurrentUser(){
+    const username = localStorage.getItem("loggedUser");
+    if(!username) return null;
 
-    if(user){
-        const loginLink = document.getElementById("loginLink");
-        const signupLink = document.getElementById("signupLink");
-        const logoutBtn = document.getElementById("logoutBtn");
-
-        if(loginLink) loginLink.style.display="none";
-        if(signupLink) signupLink.style.display="none";
-        if(logoutBtn) logoutBtn.style.display="inline-block";
-    }
-});
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    return users.find(u => u.username === username);
+}
