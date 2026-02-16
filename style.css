@@ -205,4 +205,40 @@ from{opacity:0; transform:translateY(20px);}
 to{opacity:1; transform:translateY(0);}
 }
 
+.app-menu {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 икони на ред */
+  gap: 25px;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.app-item {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 18px 10px;
+  text-align: center;
+  text-decoration: none;
+  color: #222;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: 0.2s;
+}
+
+.app-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+.app-item img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 8px;
+}
+
+.app-item span {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+}
 
