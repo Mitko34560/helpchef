@@ -2,62 +2,33 @@
 <html lang="bg">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Help Chef</title>
+<title>HelpChef</title>
 <link rel="stylesheet" href="style.css">
 <script defer src="auth.js"></script>
 </head>
-
 <body>
 
-<header>
-<div class="nav">
-    <div class="logo">Help<span>Chef</span></div>
-
-    <div class="links">
-        <a href="index.html">Начало</a>
-        <a href="profile.html">Профил</a>
-        <a href="login.html" id="loginLink">Login</a>
-        <a href="signup.html" id="signupLink">Sign Up</a>
-        <button onclick="logout()" id="logoutBtn" style="display:none;">Logout</button>
-    </div>
+<nav>
+<h1>HelpChef</h1>
+<div>
+<a href="login.html">Login</a>
+<a href="signup.html">Sign Up</a>
 </div>
-</header>
+</nav>
 
 <section class="hero">
-<div class="hero-content">
-
-<div>
-<h1>Революция в храната</h1>
-<p>Свързваме готвачи, фермери и клиенти.</p>
-<a href="signup.html" class="btn">Започни</a>
-</div>
-
-<div class="chef">
-👨‍🍳
-</div>
-
-</div>
+<h2>Модерна платформа за готвачи</h2>
+<p>Регистрирай се и създай своя профил.</p>
+<button class="btn" onclick="location.href='signup.html'">Започни</button>
+<div class="chef">👨‍🍳</div>
 </section>
 
-<section class="cards reveal">
+<section class="section">
 <div class="card">Професионални готвачи</div>
 <div class="card">Диетични програми</div>
 <div class="card">Agro Network</div>
 <div class="card">Дарение на храна</div>
 </section>
-
-<script>
-function reveal(){
-    document.querySelectorAll(".reveal").forEach(el=>{
-        if(el.getBoundingClientRect().top < window.innerHeight - 100){
-            el.classList.add("active");
-        }
-    });
-}
-window.addEventListener("scroll", reveal);
-reveal();
-</script>
 
 </body>
 </html>
