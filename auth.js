@@ -17,6 +17,7 @@ e.preventDefault();
 
 const username = document.getElementById("username").value.trim();
 const password = document.getElementById("password").value.trim();
+const role = document.getElementById("role").value;
 
 let users = getUsers();
 
@@ -28,8 +29,10 @@ return;
 users.push({
 username,
 password,
-role: username==="admin" ? "admin" : "user",
-blocked:false
+role: username==="admin" ? "admin" : role,
+blocked:false,
+bio:"",
+image:""
 });
 
 saveUsers(users);
@@ -52,7 +55,7 @@ return;
 }
 
 if(user.blocked){
-showMsg("Този акаунт е блокиран.");
+showMsg("Акаунтът е блокиран.");
 return;
 }
 
@@ -66,5 +69,5 @@ window.location="index.html";
 }
 
 function showMsg(msg){
-document.getElementById("msg").innerText=msg;
+document.getElementById("msg").innerText = msg;
 }
