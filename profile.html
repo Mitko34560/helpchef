@@ -8,14 +8,67 @@
 </head>
 <body>
 
-<h1 style="text-align:center;margin-top:100px;">
-ТЕСТ – ако виждаш това, HTML работи
-</h1>
+<nav>
+<h1>HelpChef</h1>
+<button onclick="logout()">Logout</button>
+</nav>
+
+<div class="profile" id="profileBox">
+<h2 id="welcome"></h2>
+<p id="role"></p>
+</div>
+
+<div id="adminPanel" class="admin-panel" style="display:none;">
+<h3>Админ Панел</h3>
+<div id="userList"></div>
+</div>
 
 <script>
-document.addEventListener("DOMContentLoaded",()=>{
-console.log("JS работи");
+document.addEventListener("DOMContentLoaded", () => {
+
+const user = getCurrentUser();
+
+if(!user){
+document.body.innerHTML = "<h1 style='text-align:center;margin-top:150px;'>Не си логнат</h1>";
+return;
+}
+
+document.getElementById("welcome").innerText = "Добре дошъл, " + user.username;
+document.getElementById("role").innerText = "Роля: " + user.role;
+
+if(user.role === "admin"){
+document.getElementById("adminPanel").style.display = "block";
+loadUsers();
+}
+
 });
+
+function loadUsers(){
+let users = getUsers();
+let container = document.getElementById("userList");
+container.innerHTML = "";
+
+users.forEach(u=>{
+if(u.username !== localStorage.getItem("loggedUser")){
+container.innerHTML += `
+<div style="margin:10px 0;">
+${u.username}
+<button onclick="toggle('${u.username}')">
+${u.blocked ? "Разблокирай" : "Блокирай"}
+</button>
+</div>
+`;
+}
+});
+}
+
+function toggle(username){
+let users = getUsers();
+let u = users.find(x=>x.username===username);
+u.blocked = !u.blocked;
+saveUsers(users);
+loadUsers();
+}
 </script>
 
 </body>
