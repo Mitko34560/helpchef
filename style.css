@@ -178,3 +178,31 @@ background:white;
 color:black;
 }
 
+.hero{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:85vh;
+text-align:center;
+animation:fadeIn 1s ease;
+}
+
+.chef{
+font-size:120px;
+animation:float 3s ease-in-out infinite;
+margin-top:20px;
+}
+
+@keyframes float{
+0%{transform:translateY(0);}
+50%{transform:translateY(-20px);}
+100%{transform:translateY(0);}
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+
