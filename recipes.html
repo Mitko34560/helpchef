@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<title>Рецепти</title>
+<link rel="stylesheet" href="style.css">
+<script src="auth.js" defer></script>
+</head>
+<body>
+
+<nav>
+<h1>HelpChef</h1>
+<a href="index.html">Начало</a>
+<a href="profile.html">Профил</a>
+</nav>
+
+<div class="profile">
+
+<h2>Качи рецепта</h2>
+
+<input type="text" id="title" placeholder="Име на рецепта"><br><br>
+
+<select id="category">
+<option value="Основни">Основни</option>
+<option value="Десерти">Десерти</option>
+<option value="Веган">Веган</option>
+<option value="Фитнес">Фитнес</option>
+</select><br><br>
+
+<textarea id="content" placeholder="Описание на рецептата..." rows="5"></textarea><br>
+
+<button class="btn" onclick="addRecipe()">Качи</button>
+
+</div>
+
+<hr style="margin:50px 0;">
+
+<div class="section" id="recipesList"></div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", loadRecipes);
+
+function getRecipes(){
+return JSON.parse(localStorage.getItem("recipes")) || [];
+}
+
+function saveRecipes(recipes){
+localStorage.setItem("recipes", JSON.stringify(recipes));
+}
+
+function addRecipe(){
+const user = getCurrentUser();
+if(!user){
+alert("Трябва да си логнат.");
+return;
+}
+
+const title = document.getElementById("title").value;
+const category = document.getElementById("category").value;
+const content = document.getElementById("content").value;
+
+let recipes = getRecipes();
+
+recipes.push({
+title,
+category,
+content,
+author:user.username
+});
+
+saveRecipes(recipes);
+loadRecipes();
+}
+
+function loadRecipes(){
+let recipes = getRecipes();
+let container = document.getElementById("recipesList");
+container.innerHTML="";
+
+recipes.forEach(r=>{
+container.innerHTML+=`
+<div class="card">
+<h3>${r.title}</h3>
+<p><b>Категория:</b> ${r.category}</p>
+<p>${r.content}</p>
+<p style="opacity:0.7;">Автор: ${r.author}</p>
+</div>
+`;
+});
+}
+
+</script>
+
+</body>
+</html>
