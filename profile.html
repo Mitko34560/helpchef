@@ -1,48 +1,9 @@
-<div id="adminPanel" style="display:none; margin-top:60px;">
-<h2>Администраторски панел</h2>
-<div id="usersList"></div>
-</div>
-
-<script>
-
-const user = getCurrentUser();
-if(!user) window.location.href="login.html";
-
-if(user.role === "admin"){
-    document.getElementById("adminPanel").style.display="block";
-    loadUsers();
-}
-
-function loadUsers(){
-    const users = getUsers();
-    const container = document.getElementById("usersList");
-    container.innerHTML="";
-
-    users.forEach(u=>{
-        if(u.username !== user.username){
-            const div = document.createElement("div");
-            div.style.margin="10px";
-
-            div.innerHTML = `
-                ${u.username}
-                <button onclick="toggleBlock('${u.username}')">
-                ${u.blocked ? "Разблокирай" : "Блокирай"}
-                </button>
-            `;
-
-            container.appendChild(div);
-        }
-    });
-}
-
-function toggleBlock(username){
-    let users = getUsers();
-    const index = users.findIndex(u => u.username === username);
-
-    users[index].blocked = !users[index].blocked;
-    saveUsers(users);
-
-    loadUsers();
-}
-
-</script>
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<title>Профил</title>
+<link rel="stylesheet" href="style.css">
+<script src="auth.js" defer></script>
+</head>
+<body>
