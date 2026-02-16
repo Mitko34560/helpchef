@@ -1,6 +1,26 @@
-<form onsubmit="register(event)">
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<title>Регистрация</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="auth.js"></script>
+</head>
+<body>
+
+<div class="form-container">
 <h2>Регистрация</h2>
+
+<form onsubmit="register(event)">
 <input type="text" id="username" placeholder="Username" required>
 <input type="password" id="password" placeholder="Password" required>
-<button>Sign Up</button>
+
+<div id="msg" class="form-msg"></div>
+
+<button class="btn-main">Sign Up</button>
 </form>
+
+</div>
+
+</body>
+</html>
