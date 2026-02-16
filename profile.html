@@ -1,104 +1,32 @@
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-<meta charset="UTF-8">
-<title>Профил</title>
-<link rel="stylesheet" href="style.css">
-<script defer src="auth.js"></script>
-</head>
-<body>
-
-<section class="hero">
-<div class="hero-box">
-<h1>Моят профил</h1>
-</div>
-</section>
-
-<section class="modules">
-
-<div id="profileSection" style="max-width:600px;margin:auto;text-align:center;">
-
-<img id="profileImage" src="" style="width:150px;height:150px;border-radius:50%;object-fit:cover;"><br><br>
-
-<input type="file" id="imageInput"><br><br>
-
-<input type="text" id="nameInput" placeholder="Потребителско име"><br><br>
-
-<textarea id="bioInput" placeholder="Биография" rows="4" style="width:100%;"></textarea><br><br>
-
-<button class="btn-main" onclick="saveProfile()">Запази</button>
-<button class="btn-cta" onclick="logout()">Logout</button>
-
-</div>
-
-<div id="adminPanel" style="margin-top:80px; display:none;">
+<div id="adminPanel" style="display:none; margin-top:60px;">
 <h2>Администраторски панел</h2>
-<div id="userList"></div>
+<div id="usersList"></div>
 </div>
-
-</section>
 
 <script>
 
-const currentUser = getCurrentUser();
+const user = getCurrentUser();
+if(!user) window.location.href="login.html";
 
-if(!currentUser){
-    window.location.href="login.html";
-}
-
-// Попълване на данните
-document.getElementById("nameInput").value = currentUser.username;
-document.getElementById("bioInput").value = currentUser.bio;
-
-if(currentUser.image){
-    document.getElementById("profileImage").src = currentUser.image;
-}else{
-    document.getElementById("profileImage").src = "https://via.placeholder.com/150";
-}
-
-// Качване на снимка
-document.getElementById("imageInput").addEventListener("change", function(){
-    const reader = new FileReader();
-    reader.onload = function(){
-        document.getElementById("profileImage").src = reader.result;
-    }
-    reader.readAsDataURL(this.files[0]);
-});
-
-// Запазване
-function saveProfile(){
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-
-    const index = users.findIndex(u => u.username === currentUser.username);
-
-    users[index].bio = document.getElementById("bioInput").value;
-    users[index].image = document.getElementById("profileImage").src;
-
-    localStorage.setItem("users", JSON.stringify(users));
-
-    alert("Профилът е обновен.");
-}
-
-// ===== Админ панел =====
-if(currentUser.role === "admin"){
+if(user.role === "admin"){
     document.getElementById("adminPanel").style.display="block";
     loadUsers();
 }
 
 function loadUsers(){
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-    const container = document.getElementById("userList");
-    container.innerHTML = "";
+    const users = getUsers();
+    const container = document.getElementById("usersList");
+    container.innerHTML="";
 
-    users.forEach(user=>{
-        if(user.username !== currentUser.username){
+    users.forEach(u=>{
+        if(u.username !== user.username){
             const div = document.createElement("div");
             div.style.margin="10px";
 
             div.innerHTML = `
-                ${user.username}
-                <button onclick="toggleBlock('${user.username}')">
-                    ${user.blocked ? "Разблокирай" : "Блокирай"}
+                ${u.username}
+                <button onclick="toggleBlock('${u.username}')">
+                ${u.blocked ? "Разблокирай" : "Блокирай"}
                 </button>
             `;
 
@@ -108,16 +36,13 @@ function loadUsers(){
 }
 
 function toggleBlock(username){
-    let users = JSON.parse(localStorage.getItem("users")) || [];
+    let users = getUsers();
     const index = users.findIndex(u => u.username === username);
 
     users[index].blocked = !users[index].blocked;
+    saveUsers(users);
 
-    localStorage.setItem("users", JSON.stringify(users));
     loadUsers();
 }
 
 </script>
-
-</body>
-</html>
