@@ -80,3 +80,21 @@ container.innerHTML+=`
 }
 
 window.onload=loadRecipes;
+
+import { sendPasswordResetEmail }
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+// RESET PASSWORD
+window.resetPassword = async function(){
+const email = document.getElementById("email").value;
+
+try{
+await sendPasswordResetEmail(auth, email);
+document.getElementById("message").innerText =
+"Провери имейла си за линк.";
+}
+catch(error){
+document.getElementById("message").innerText =
+"Невалиден имейл.";
+}
+};
